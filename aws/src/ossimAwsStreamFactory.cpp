@@ -189,6 +189,14 @@ void ossim::AwsStreamFactory::initClient() const
       config.region = region.c_str();
    }
    
+   // Look for AWS S3 endpoint override:
+   std::string endpoint = ossimPreferences::instance()->
+      preferencesKWL().findKey(std::string("ossim.plugins.aws.s3.endpoint"));
+   if ( endpoint.size() )
+   {
+      config.endpointOverride = endpoint.c_str();
+   }
+ 
    m_client = std::make_shared<Aws::S3::S3Client>(config);
 //new Aws::S3::S3Client( config );
 }
